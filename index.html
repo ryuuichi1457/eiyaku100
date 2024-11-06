@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>英訳100本ノック</title>
+</head>
+<body>
+    <h1>英訳100本ノック</h1>
+    
+    <!-- 結果を表示するエリア -->
+    <div id="result"></div>
+
+    <script>
+        // JSONファイルを読み込み、任意の要素を取得する関数
+        async function getElementFromJSON() {
+            try {
+                // JSONファイルをフェッチ
+                const response = await fetch('data.json');
+                const data = await response.json(); // JSONをJavaScriptオブジェクトに変換
+                id= Math.floor(Math.random() * 100)
+                // 配列からIDに基づいて要素を検索
+                const element = data.find(item => item.id === id);
+
+                // 結果を表示する
+                displayResult(element);
+            } catch (error) {
+                console.error("エラーが発生しました:", error);
+                displayResult("データの取得に失敗しました");
+            }
+        }
+
+        // 結果をHTMLに表示する関数
+        function displayResult(result) {
+            const resultDiv = document.getElementById('result');
+            if (typeof result === 'string') {
+                resultDiv.textContent = result; // エラーメッセージを表示
+            } else {
+                resultDiv.innerHTML = `
+                    <h2>${result.script}</h2>
+                `;
+            }
+        }
+
+        // 使用例：IDが1のスクリプトを取得
+        getElementFromJSON(1); // 例えばID=1のスクリプトを表示
+    </script>
+</body>
+</html>
